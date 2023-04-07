@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { UserShape } from "../types"
+import { UserShape } from "../Types"
 import httpClient from '../httpClient'
 import PropTypes from 'prop-types';
-import "../dark.css"
-import "./pages.css"
+import "../Dark.css"
+import "./Pages.css"
 
 const LandingPage = () => {
   const [user, setUser] = useState(null);

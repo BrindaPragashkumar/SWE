@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import httpClient from '../httpClient'
-import "./pages.css"
+import "./Pages.css"
 
 const RegisterPage = () => {
     const [email, setEmail] = useState("")
@@ -34,7 +34,7 @@ const RegisterPage = () => {
         }
 
         try {
-            const resp = await httpClient.post("http://localhost:5000/register", {
+            await httpClient.post("http://localhost:5000/register", {
                 email, password, first_name, last_name, role
             })   
             window.location.href = "/"

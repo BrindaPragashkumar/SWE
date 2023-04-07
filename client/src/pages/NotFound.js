@@ -1,6 +1,6 @@
 import React from "react"
-import "../dark.css"
-import "./pages.css"
+import "../Dark.css"
+import "./Pages.css"
 
 const NotFound = () => {
   return (
