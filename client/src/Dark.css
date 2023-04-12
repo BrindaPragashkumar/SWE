@@ -46,6 +46,63 @@ select {
   color: white;
 }
 
+.remove-button, .edit-button {
+  background-color: white;
+  border: 2px solid #4CAF50;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 200px;
+  margin-right: 20px;
+  margin-left: 20px;
+}
+.remove-button-1{
+  background-color: white;
+  border: 2px solid #4CAF50;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 300px;
+  margin-right: 20px;
+  margin-left: 20px;
+  border-color: red;
+  color: red;
+}
+.remove-button-1:hover {
+  background-color: red;
+  color: white;
+}
+
+.remove-button {
+  border-color: red;
+  color: red;
+}
+
+.edit-button {
+  border-color: lightblue;
+  color: lightblue;
+}
+
+.remove-button:hover {
+  background-color: red;
+  color: white;
+}
+
+.edit-button:hover {
+  background-color: lightblue;
+  color: white;
+}
+
 .light-theme {
   display: flex;
   flex-direction: column;
@@ -63,6 +120,16 @@ select {
   border-radius: 5px;
   background-color: #ffffff;
   margin-right: 125px;
+}
+
+.main-content-1{
+  margin: 30px auto;
+  padding: 20px;
+  max-width: 800px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  background-color: #ffffff;
 }
 
 .property-address-link {
