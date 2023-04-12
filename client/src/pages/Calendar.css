@@ -1,0 +1,25 @@
+/*Calendar Events*/
+.header{
+   
+    font-size: 4rem;
+    margin-bottom: 7rem;
+}
+.main-content{
+   
+    width: 20rem;
+    
+}
+.Calender-Sidebar{
+    flex: 1 1 20%;
+    background-color: rgba(7, 7, 77, 0.881) ;
+    padding: 15px;
+    color: beige;
+    border-radius: 10px;
+    font-variant: h5;
+}
+
+/* ListItemText{
+    background-color: rgb(3, 3, 33);
+    margin: '10px 0';
+    border-radius: 2px;
+} */

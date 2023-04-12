@@ -2,12 +2,9 @@ import React,{ useState, useEffect }  from 'react'
 import httpClient from '../httpClient'
 import PropTypes from 'prop-types';
 import { UserShape } from "../Types"
-import "../Pages.css"
-import FullCalendar, {formatDate} from '@fullcalendar/react'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import timrGridPlugin from '@fullcalendar/timegrid'
-import listPlugin from '@fullcalendar/list'
-import interactionPlugin from '@fullcalendar/interaction'
+
+
+
 import './Calendar.css'
 
 
@@ -75,11 +72,7 @@ const Calendar = () => {
             <ListItemText
             primary={event.title}
             secondary={<Typography>
-              {formatDate(event.start,{
-              year: 'numeric',
-              month: 'short',
-              day: 'numeric'})
-              }
+             
             </Typography>}/>
             </ListItem>
 
@@ -88,7 +81,7 @@ const Calendar = () => {
           </Typography>
         </Box>
         <Box className ='Calendar'>
-          <FullCalendar height='75vh'/>
+         
 
 
         </Box>
