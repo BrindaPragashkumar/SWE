@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import httpClient from '../httpClient'
-import "./Pages.css"
+import '../Dark.css'
 
 const RegisterPage = () => {
     const [email, setEmail] = useState("")
@@ -10,6 +10,7 @@ const RegisterPage = () => {
     const [first_name, setFirst_name] = useState("")
     const [last_name, setLast_name] = useState("")
     const [role, setRole] = useState("")
+    const [phone_number, setPhone_number] = useState("")
     const [error, setError] = useState("")
 
     const validateEmail = (email) => {
@@ -17,9 +18,20 @@ const RegisterPage = () => {
         return re.test(String(email).toLowerCase());
     }
 
+    const validatePhoneNumber = (phone_number) => {
+        const re = /^0\d{10}$/;
+        return re.test(String(phone_number));
+    }
+
+    const validateName = (name) => {
+        const re = /^[A-Za-z]+$/;
+        return re.test(String(name));
+    }
+
     const registerUser = async () => {
-        if (role === "" || role === "Select role") {
-            setError("Please select a role")
+
+        if (!validateName(first_name) || !validateName(last_name)) {
+            setError("First Name and Last Name should contain only letters")
             return
         }
 
@@ -28,19 +40,36 @@ const RegisterPage = () => {
             return
         }
 
+        if (!validatePhoneNumber(phone_number)) {
+            setError("Invalid phone number")
+            return
+        }
+
         if (password !== confirmPassword) {
             setError("Passwords do not match")
             return
         }
 
+        if (role === "" || role === "Select role") {
+            setError("Please select a role")
+            return
+        }
+
         try {
             await httpClient.post("http://localhost:5000/register", {
-                email, password, first_name, last_name, role
-            })   
+                email, password, first_name, last_name, role, phone_number
+            })
             window.location.href = "/"
         } catch (error) {
             if (error.response.status === 401) {
                 alert("Invalid credentials")
+            }
+            if (error.response.status === 409) {
+                if (error.response.data.error === "email") {
+                    setError("An account already exists with that email")
+                } else if (error.response.data.error === "phone_number") {
+                    setError("An account already exists with that phone number")
+                }
             }
         }
     }
@@ -49,46 +78,52 @@ const RegisterPage = () => {
         <div className='main-content'>
             <h1>Create New Account</h1>
             <form>
-                <div style={{display: 'flex'}}>
+            <div style={{display: 'flex', justifyContent: 'center'}}> 
                     <div>
-                        <label>First Name: </label>
                         <input
                             type="text"
                             value={first_name}
                             onChange={(e) => setFirst_name(e.target.value)}
-                            id=""/>
+                            id=""
+                            placeholder="First Name"/>
                     </div>
                     <div>
-                        <label>Last Name: </label>
                         <input
                             type="text"
                             value={last_name}
                             onChange={(e) => setLast_name(e.target.value)}
-                            id=""/>
+                            id=""
+                            placeholder="Last Name"/>
                     </div>
                 </div>
                 <div>
-                <label>Email: </label>
                     <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        id=""/>
+                        id=""
+                        placeholder="Email"/>
                 </div>
                 <div>
-                    <label>Password: </label>
+                    <input
+                        type="text"
+                        value={phone_number}
+                        onChange={(e) => setPhone_number(e.target.value)}
+                        id=""
+                        placeholder="Phone Number"/>
+                </div>
+                <div>
                     <input
                         type="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        id=""/>
+                        id=""
+                        placeholder="Password"/>
                 </div>
                 <div>
-                    <label>Confirm Password: </label>
-                    <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                    <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} placeholder="Confirm Password"/>
                 </div>
                 <div>
-                    <label>Role: </label>
                     <select value={role} onChange={(e) => setRole(e.target.value)}>
                         <option value="" disabled>Select role</option>
                         <option value="landlord">Landlord</option>
@@ -96,7 +131,7 @@ const RegisterPage = () => {
                     </select>
                 </div>
                 {error && <p style={{ color: "red" }}>{error}</p>}
-                <button type="button" onClick={() => registerUser()}>Register</button>
+                <button className='button' type="button" onClick={() => registerUser()}>Register</button>
             </form>
             <div>
                 <p>Already have an account? <a href="/login">Login</a></p>
@@ -110,7 +145,8 @@ RegisterPage.propTypes = {
     password: PropTypes.string,
     first_name: PropTypes.string,
     last_name: PropTypes.string,
-    role: PropTypes.string
+    role: PropTypes.string,
+    phone_number: PropTypes.string
 }
 
 export default RegisterPage

@@ -3,7 +3,6 @@ import { UserShape } from "../Types"
 import httpClient from '../httpClient'
 import PropTypes from 'prop-types';
 import "../Dark.css"
-import "./Pages.css"
 
 const LandingPage = () => {
   const [user, setUser] = useState(null);
@@ -17,13 +16,37 @@ const LandingPage = () => {
     (async () => {
       try {
         const resp = await httpClient.get('//localhost:5000/@me');
-
-        setUser(resp.data);
+  
+        const userData = {
+          ...resp.data,
+          numbers: resp.data.numbers ? JSON.parse(resp.data.numbers) : [],
+        };
+  
+        setUser(userData);
+        console.log('User data:', userData); // Log user data
       } catch (error) {
         console.log('Not authenticated');
       }
     })();
   }, []);
+  
+
+  const renderNumbers = () => {
+    if (user && user.numbers) {
+      return (
+        <div>
+          <h3>Numbers:</h3>
+          <ul>
+            {user.numbers.map((number, index) => (
+              <li key={index}>{number}</li>
+            ))}
+          </ul>
+        </div>
+      );
+    }
+    return null;
+  };
+  
 
   return (
     <div className='main-content'>
@@ -35,6 +58,8 @@ const LandingPage = () => {
           <h3>Email: {user.email}</h3>
           <h3>Name: {user.first_name} {user.last_name}</h3>
           <h3>Role: {user.role}</h3>
+          <h3>Phone Number: {user.phone_number}</h3>
+          {renderNumbers()}
           <button onClick={logoutUser}>Log Out</button>
         </div>
       ) : (<div>

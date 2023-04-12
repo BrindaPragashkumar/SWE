@@ -4,33 +4,56 @@ import { UserShape } from '../Types';
 import httpClient from '../httpClient';
 import PropTypes from 'prop-types';
 import '../Dark.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-const AddPropertyPage = () => {
-  const [images, setImages] = useState([])
-  const [imageUrls, setImageUrls] = useState([])
-  const [address, setAddress] = useState('')
-  const [description, setDescription] = useState('')
-  const [price, setPrice] = useState('')
-  const [bedrooms, setBedrooms] = useState('')
-  const [bathrooms, setBathrooms] = useState('')
+const EditPropertyPage = () => {
+  const { propertyId } = useParams();
+  const [property, setProperty] = useState(null);
+  const [images, setImages] = useState([]);
+  const [imageUrls, setImageUrls] = useState([]);
+  const [address, setAddress] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [bedrooms, setBedrooms] = useState('');
+  const [bathrooms, setBathrooms] = useState('');
   const [postcode, setPostcode] = useState('');
   const [city, setCity] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchProperty = async () => {
+      try {
+        const response = await axios.get(`http://localhost:5000/properties/${propertyId}`);
+        setProperty(response.data);
+        setAddress(response.data.address);
+        setDescription(response.data.description);
+        setPrice(response.data.price);
+        setBedrooms(response.data.bedrooms);
+        setBathrooms(response.data.bathrooms);
+        setPostcode(response.data.postcode);
+        setCity(response.data.city);
+        setImageUrls(response.data.photos);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchProperty();
+
     (async () => {
       try {
         const resp = await httpClient.get('//localhost:5000/@me');
-
         setUser(resp.data);
       } catch (error) {
         console.log('Not authenticated');
       }
     })();
-  }, []);
+  }, [propertyId]);
+
+  const handleImageRemove = (index) => {
+    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
+    setImageUrls((prevImageUrls) => prevImageUrls.filter((_, i) => i !== index));
+  };
 
   const handleImageUpload = async (e) => {
     const files = e.target.files;
@@ -56,21 +79,6 @@ const AddPropertyPage = () => {
     }
   };
 
-  const validatePostCode = (code) => {
-    const re = /^[A-Za-z]{1,2}\d{1,2}\s?\d[A-Za-z]{2}$/;
-    return re.test(String(code).toUpperCase());
-  }
-
-  const validateCity = (city) => {
-    const re = /^[a-zA-Z\s]+$/;
-    return re.test(String(city));
-}
-
-  const handleImageRemove = (index) => {
-    setImages((prevImages) => prevImages.filter((_, i) => i !== index));
-    setImageUrls((prevImageUrls) => prevImageUrls.filter((_, i) => i !== index));
-  };
-
   const handleSingleDigitInput = (e, setValue) => {
     if (e.target.value.length <= 1) {
       setValue(e.target.value);
@@ -81,47 +89,29 @@ const AddPropertyPage = () => {
     e.preventDefault();
 
     if (!address || !description || !price || !bedrooms || !bathrooms || !postcode || !city || imageUrls.length === 0) {
-      setErrorMessage('Please fill out all fields and upload at least one photo.');
+      alert('Please fill out all fields and upload at least one photo.');
       return;
     }
 
-    if (!validatePostCode(postcode)) {
-      setErrorMessage('Please enter a valid UK post code.');
-      return;
-    }
-
-    if (!validateCity(city)) {
-      setErrorMessage('City name should not contain any numbers.');
-      return;
-    }
-
-    setErrorMessage('');
-
-    const existingProperty = await axios.get(`http://localhost:5000/properties?address=${encodeURIComponent(address)}`);
-
-    if (existingProperty.data.id > 0) {
-      console.error('Error: Property with this address already exists.');
-      alert('Property with this address already exists.');
-      return;
-    }
+    const allImageUrls = [...property.photos, ...imageUrls];
 
     const propertyData = {
       address,
       description,
       price,
       userId: user.id,
-      photos: JSON.stringify(imageUrls),
+      photos: JSON.stringify(allImageUrls),
       bedrooms,
       bathrooms,
       postcode,
       city
     };
-    console.log(propertyData.photos)
-    const response = await axios.post('http://localhost:5000/properties', propertyData);
+  
+    const response = await axios.put(`http://localhost:5000/properties/${propertyId}`, propertyData);
     navigate(`/property/${response.data.id}`);
   };
 
-  if (!user || user.role !== 'landlord') {
+  if (!user || user.role !== 'landlord' || !property) {
     return (
       <div className='main-content'>
         <h1>You don't have access to this page.</h1>
@@ -131,20 +121,15 @@ const AddPropertyPage = () => {
 
   return (
     <div className='main-content'>
-      <h1>Add a Property</h1>
+      <h1>Edit Property</h1>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="address">Address:</label>
           <input type="text" id="address" value={address} onChange={(e) => setAddress(e.target.value)} />
         </div>
         <div>
-          <label htmlFor="postcode">Post Code: </label>
-          <input
-            type="text"
-            maxLength="8"
-            value={postcode}
-            onChange={(e) => setPostcode(e.target.value)}
-            id="" />
+          <label htmlFor="postcode">Post Code:</label>
+          <input type="text" id="postcode" value={postcode} onChange={(e) => setPostcode(e.target.value)} />
         </div>
         <div>
           <label htmlFor="city">City:</label>
@@ -170,7 +155,6 @@ const AddPropertyPage = () => {
           <label htmlFor="image">Upload Images:</label>
           <input type="file" id="image" name="image" onChange={handleImageUpload} multiple />
         </div>
-        {errorMessage && <p style={{ color: 'red', marginTop: '1em' }}>{errorMessage}</p>}
         <button type="submit">Submit Property</button>
       </form>
       {imageUrls.map((url, index) => (
@@ -205,11 +189,11 @@ const AddPropertyPage = () => {
         </div>
       ))}
     </div>
-  )
-}
+  );
+};
 
-AddPropertyPage.propTypes = {
+EditPropertyPage.propTypes = {
   user: PropTypes.oneOfType([UserShape, PropTypes.instanceOf(null)]),
 };
 
-export default AddPropertyPage
+export default EditPropertyPage;
