@@ -13,7 +13,8 @@ import AllPropertiesPage from './pages/AllPropertiesPage';
 import ViewingListPage from './pages/ViewingListPage';
 import EditPropertyPage from './pages/EditPropertyPage';
 import SearchPage from './pages/SearchPage';
-
+import ChatPage from './pages/ChatPage';
+import Calendar from './pages/Calendar';
 const Router = () => {
   const [user, setUser] = useState(null);
 

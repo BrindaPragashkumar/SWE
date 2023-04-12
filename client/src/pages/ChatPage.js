@@ -1,8 +1,8 @@
 import React,{ useState, useEffect }  from 'react'
-import httpClient from '../../httpClient'
+import httpClient from '../httpClient'
 import PropTypes from 'prop-types';
-import { UserShape } from "../../Types"
-import "../Pages.css"
+import { UserShape } from "../Types"
+
 
 const ChatPage = () => {
   const [user, setUser] = useState(null);
