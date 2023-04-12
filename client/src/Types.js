@@ -5,5 +5,6 @@ export const UserShape = PropTypes.shape({
   email: PropTypes.string.isRequired,
   first_name: PropTypes.string.isRequired,
   last_name: PropTypes.string.isRequired,
-  role: PropTypes.string.isRequired
+  role: PropTypes.string.isRequired,
+  phone_number: PropTypes.string.isRequired
 });

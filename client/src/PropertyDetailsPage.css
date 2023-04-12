@@ -1,0 +1,76 @@
+.property-address {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .property-location {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .property-description {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  
+  .property-price,
+  .property-bedrooms,
+  .property-bathrooms {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .photos-container{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    margin-top: 1rem;
+  }
+  
+  .property-photo {
+    width: 100%;
+    max-width: 800px; /* Increased maximum width */
+    height: auto;
+    object-fit: contain; /* Changed to 'contain' */
+    display: none;
+  }
+  
+  .property-photo.active {
+    display: block;
+  }
+  
+  .property-details-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+  
+  .property-details-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .property-details-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .property-details-title {
+    font-size: 24px;
+    margin-bottom: 8px;
+  }
+  
+  .arrow-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    margin: 8px;
+  }
+  

@@ -8,6 +8,11 @@ import Sidebar from './components/Sidebar';
 import httpClient from './httpClient';
 import AddPropertyPage from './pages/AddPropertyPage'
 import PropertyDetailsPage from './pages/PropertyDetailsPage';
+import PersonalPropertiesPage from './pages/PersonalPropertiesPage';
+import AllPropertiesPage from './pages/AllPropertiesPage';
+import ViewingListPage from './pages/ViewingListPage';
+import EditPropertyPage from './pages/EditPropertyPage';
+import SearchPage from './pages/SearchPage';
 
 const Router = () => {
   const [user, setUser] = useState(null);
@@ -34,6 +39,11 @@ const Router = () => {
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/add-property" element={<AddPropertyPage user={user} />} />
             <Route path="/property/:propertyId" element={<PropertyDetailsPage />} />
+            <Route path="/properties" element={<PersonalPropertiesPage />} />
+            <Route path="/all-properties" element={<AllPropertiesPage />} />
+            <Route path="/viewing-list" element={<ViewingListPage />} />
+            <Route path="/edit-property/:propertyId" element={<EditPropertyPage user={user} />} />
+            <Route path="/search" element={<SearchPage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
