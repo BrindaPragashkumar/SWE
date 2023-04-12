@@ -1,6 +1,7 @@
 from flask_sqlalchemy import SQLAlchemy
 from uuid import uuid4
 import random
+import json
 
 db = SQLAlchemy()
 
@@ -23,7 +24,7 @@ class User(db.Model):
     first_name = db.Column(db.String(32), nullable=False)
     last_name = db.Column(db.String(32), nullable=False)
     role = db.Column(db.String(32), nullable=False)
-    properties = db.relationship('Property', backref='user', lazy=True)
+    phone_number = db.Column(db.String(15), nullable=False, unique=True)
 
 class Property(db.Model):
     id = db.Column(db.Integer, primary_key=True, unique=True, default=get_random_6_digit_number)
@@ -34,3 +35,15 @@ class Property(db.Model):
     photos = db.Column(db.Text)
     bedrooms = db.Column(db.Integer, nullable=False)
     bathrooms = db.Column(db.Integer, nullable=False)
+    user_ids = db.Column(db.Text, nullable=False, default="[]")
+    postcode = db.Column(db.String(10), nullable=False)
+    city = db.Column(db.String(255), nullable=False)
+    
+
+    @property
+    def user_ids_list(self):
+        return json.loads(self.user_ids or "[]")
+
+    @user_ids_list.setter
+    def user_ids_list(self, value):
+        self.user_ids = json.dumps(value)

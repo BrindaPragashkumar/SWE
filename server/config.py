@@ -9,7 +9,7 @@ class ApplicationConfig:
 
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SQLALCHEMY_ECHO = True
-    SQLALCHEMY_DATABASE_URI = r"sqlite:///./db2.sqlite"
+    SQLALCHEMY_DATABASE_URI = r"sqlite:///./db10.sqlite"
 
     SESSION_TYPE = "redis"
     SESSION_PERMANENT = False
