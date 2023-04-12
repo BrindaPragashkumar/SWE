@@ -7,10 +7,11 @@ import httpClient from '../httpClient';
 import { useNavigate } from 'react-router-dom';
 import { FaBed, FaBath, FaHeart, FaPhone } from 'react-icons/fa';
 
-const AllPropertiesPage = ({ initialProperties }) => {
-  const [properties, setProperties] = useState(initialProperties || []);
+const AllPropertiesPage = () => {
+  const [properties, setProperties] = useState([]);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  
 
   useEffect(() => {
     (async () => {
@@ -108,7 +109,7 @@ const AllPropertiesPage = ({ initialProperties }) => {
       <div className="property-cards">
         {user &&
           properties.map((property) => (
-            <div className="property-card" key={property.id}>
+            <div className="property-card">
               <div className="property-photo-container" key={property.id} onClick={() => navigateToProperty(property.id)}>
                 {property.photos.map((photo, index) => (
                   <img
@@ -167,10 +168,6 @@ const AllPropertiesPage = ({ initialProperties }) => {
 
 AllPropertiesPage.propTypes = {
   user: PropTypes.oneOfType([UserShape, PropTypes.instanceOf(null)]),
-  initialProperties: PropTypes.arrayOf(PropTypes.object),
 };
 
-AllPropertiesPage.defaultProps = {
-  initialProperties: [],
-};
 export default AllPropertiesPage;

@@ -25,7 +25,7 @@ const LoginPage = () => {
     }
 
     return (
-        <div className='main-content'>
+        <div className='main-content-1'>
             <h1>Log Into Your Account</h1>
             <form>
                 <div>

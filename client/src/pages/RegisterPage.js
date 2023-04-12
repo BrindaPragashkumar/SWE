@@ -75,7 +75,7 @@ const RegisterPage = () => {
     }
 
     return (
-        <div className='main-content'>
+        <div className='main-content-1'>
             <h1>Create New Account</h1>
             <form>
             <div style={{display: 'flex', justifyContent: 'center'}}> 

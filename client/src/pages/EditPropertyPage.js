@@ -108,7 +108,7 @@ const EditPropertyPage = () => {
     };
   
     const response = await axios.put(`http://localhost:5000/properties/${propertyId}`, propertyData);
-    navigate(`/property/${response.data.id}`);
+    navigate(`/properties`);
   };
 
   if (!user || user.role !== 'landlord' || !property) {
