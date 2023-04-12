@@ -44,6 +44,8 @@ const Router = () => {
             <Route path="/viewing-list" element={<ViewingListPage />} />
             <Route path="/edit-property/:propertyId" element={<EditPropertyPage user={user} />} />
             <Route path="/search" element={<SearchPage />} />
+            <Route path="/chat" element={<ChatPage user={user} />} />
+            <Route path="/calendar" element={<Calendar user={user} />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
